@@ -15,6 +15,17 @@ kotlin {
     jvmToolchain(17)
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "studio.hcmc"
+            artifactId = "kotlin-protocol-extension"
+            version = "0.0.4"
+            from(components["java"])
+        }
+    }
+}
+
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.5.1")
