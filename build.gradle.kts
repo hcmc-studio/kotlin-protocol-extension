@@ -1,11 +1,11 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.9.0"
-    `maven-publish`
+    id("maven-publish")
 }
 
 group = "studio.hcmc"
-version = "0.0.4-alpha01"
+version = "0.0.4"
 
 repositories {
     mavenCentral()

@@ -64,12 +64,14 @@ sealed interface Response<T> : DataTransferObject {
     data class Error(
         override val type: Type,
         override val metadata: Metadata,
-        override val result: String
+        override val result: String,
+        val className: String
     ) : Response<String> {
         constructor(acceptedAt: Instant, throwable: Throwable): this(
             type = Type.ERROR,
             metadata = Metadata(acceptedAt),
-            result = throwable.stackTraceToString()
+            result = throwable.stackTraceToString(),
+            className = throwable::class.qualifiedName ?: "<unknown>"
         )
     }
 }
