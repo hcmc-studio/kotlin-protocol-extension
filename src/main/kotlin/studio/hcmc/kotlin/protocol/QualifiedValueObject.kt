@@ -1,3 +1,3 @@
 package studio.hcmc.kotlin.protocol
 
-interface QualifiedValueObject
+interface QualifiedValueObject : ValueObject
