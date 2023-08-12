@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "studio.hcmc"
-version = "0.0.11"
+version = "0.0.12"
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "studio.hcmc"
             artifactId = "kotlin-protocol-extension"
-            version = "0.0.11"
+            version = "0.0.12"
             from(components["java"])
         }
     }
