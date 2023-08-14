@@ -17,8 +17,10 @@ inline fun <reified DTO> DTO.applyNotNullTo(o: Any): Int where DTO : DataTransfe
         val setterName = "set${thisGetter.name.removePrefix("get")}"
         val v = thisGetter.invoke(this) ?: continue
         val setter = destSetters.find { it.name == setterName } ?: continue
-        setter.invoke(o, v)
-        applied++
+        try {
+            setter.invoke(o, v)
+            applied++
+        } catch (_: IllegalArgumentException) {}
     }
 
     return applied
