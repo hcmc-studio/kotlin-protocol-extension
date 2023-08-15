@@ -15,6 +15,7 @@ version = project_version
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven { setUrl("https://jitpack.io") }
 }
 
