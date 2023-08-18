@@ -1,8 +1,13 @@
 package studio.hcmc.kotlin.protocol
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
-@Serializable
+@Serializable(with = BitMaskSerializer::class)
 open class BitMask<E>(open val value: Int) : Number(), Comparable<BitMask<E>> where E : Enum<E>, E : BitMaskFlag {
     constructor(vararg flags: E): this(flags.fold(0) { acc, flag -> acc or flag.value })
 
@@ -40,5 +45,17 @@ open class BitMask<E>(open val value: Int) : Number(), Comparable<BitMask<E>> wh
 
     override fun toShort(): Short {
         return value.toShort()
+    }
+}
+
+private class BitMaskSerializer<E> : KSerializer<BitMask<E>> where E : Enum<E>, E : BitMaskFlag {
+    override val descriptor = PrimitiveSerialDescriptor("BitMask", PrimitiveKind.INT)
+
+    override fun deserialize(decoder: Decoder): BitMask<E> {
+        return BitMask(decoder.decodeInt())
+    }
+
+    override fun serialize(encoder: Encoder, value: BitMask<E>) {
+        encoder.encodeInt(value.value)
     }
 }
