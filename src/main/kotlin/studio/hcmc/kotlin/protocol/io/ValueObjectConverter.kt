@@ -1,4 +1,4 @@
-package studio.hcmc.kotlin.protocol
+package studio.hcmc.kotlin.protocol.io
 
 interface ValueObjectConverter<VO : ValueObject> {
     fun toValueObject(): VO

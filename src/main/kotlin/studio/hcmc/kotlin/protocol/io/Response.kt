@@ -3,7 +3,6 @@ package studio.hcmc.kotlin.protocol.io
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import studio.hcmc.kotlin.protocol.DataTransferObject
 
 sealed interface Response<T> : DataTransferObject {
     val type: Type

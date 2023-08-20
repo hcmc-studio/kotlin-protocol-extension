@@ -1,4 +1,4 @@
-package studio.hcmc.kotlin.protocol
+package studio.hcmc.kotlin.protocol.io
 
 import kotlinx.serialization.Serializable
 
