@@ -2,7 +2,14 @@ package studio.hcmc.kotlin.protocol.io
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.SerialKind
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 sealed interface Response<T> : DataTransferObject {
     val type: Type
@@ -24,12 +31,13 @@ sealed interface Response<T> : DataTransferObject {
     data class Empty(
         override val type: Type,
         override val metadata: Metadata,
-        override val result: Unit
     ) : Response<Unit> {
+        @Transient
+        override val result: Unit = Unit
+
         constructor(acceptedAt: Instant): this(
             type = Type.EMPTY,
-            metadata = Metadata(acceptedAt),
-            result = Unit
+            metadata = Metadata(acceptedAt)
         )
     }
 
