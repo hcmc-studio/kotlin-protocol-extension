@@ -18,3 +18,15 @@ interface Id<V> {
         }
     }
 }
+
+interface IntId : Id<Int> {
+    override val value: Int
+}
+
+interface LongId : Id<Long> {
+    override val value: Long
+}
+
+interface StringId : Id<String> {
+    override val value: String
+}
