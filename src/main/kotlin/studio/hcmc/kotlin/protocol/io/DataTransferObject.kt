@@ -8,7 +8,7 @@ import kotlin.reflect.full.memberProperties
 interface DataTransferObject
 
 /**
- * [DTO]에 정의된 값을 대상 객체에 적용
+ * [DTO]에 정의된 값을 대상 객체에 적용, null을 포함하지 않음
  */
 @Suppress("UNCHECKED_CAST")
 inline fun <reified DTO, reified Destination : Any> DTO.applyNotNullTo(
@@ -25,13 +25,37 @@ inline fun <reified DTO, reified Destination : Any> DTO.applyNotNullTo(
     for (thisGetter in thisGetters) {
         val v = thisGetter.get(this) ?: continue
         val destSetter = destSetters.find { it.name == thisGetter.name } ?: continue
-        if (v is Id<*>) {
-            (destSetter as KMutableProperty1<Destination, Any?>).set(o, v.value)
-        } else {
+        if (v !is Id<*>) {
             (destSetter as KMutableProperty1<Destination, Any?>).set(o, v)
+            applied++
         }
+    }
 
-        applied++
+    return applied
+}
+
+/**
+ * [DTO]에 정의된 값을 대상 객체에 적용, null을 포함
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified DTO, reified Destination : Any> DTO.applyTo(
+    o: Destination,
+    vararg excludes: String
+): Int where DTO : DataTransferObject {
+    var applied = 0
+    val thisGetters = this::class.memberProperties
+        .filterIsInstance<KProperty1<DTO, *>>()
+        .filter { property -> excludes.none { it == property.name } }
+    val destSetters = o::class.memberProperties
+        .filterIsInstance<KMutableProperty1<Destination, *>>()
+        .filter { property -> excludes.none { it == property.name } }
+    for (thisGetter in thisGetters) {
+        val v = thisGetter.get(this)
+        val destSetter = destSetters.find { it.name == thisGetter.name } ?: continue
+        if (v !is Id<*>) {
+            (destSetter as KMutableProperty1<Destination, Any?>).set(o, v)
+            applied++
+        }
     }
 
     return applied
