@@ -13,7 +13,7 @@ interface ListOptionFilter : DataTransferObject {
     sealed interface Element
 
     @Serializable
-    data class NumericElement<T : Number>(
+    data class NumericElement<T>(
         val eq: T? = null,
         val neq: T? = null,
         val less: T? = null,
@@ -22,19 +22,7 @@ interface ListOptionFilter : DataTransferObject {
         val greaterEq: T? = null,
         val inList: List<T>? = null,
         val notInList: List<T>? = null
-    ) : Element
-
-    @Serializable
-    data class DateElement(
-        val eq: String? = null,
-        val neq: String? = null,
-        val less: String? = null,
-        val lessEq: String? = null,
-        val greater: String? = null,
-        val greaterEq: String? = null,
-        val inList: List<String>? = null,
-        val notInList: List<String>? = null
-    ) : Element
+    ) : Element where T : Number, T : Comparable<T>
 
     @Serializable
     data class StringElement(
@@ -46,6 +34,18 @@ interface ListOptionFilter : DataTransferObject {
         val greaterEq: String? = null,
         val like: String? = null,
         val notLike: String? = null,
+        val inList: List<String>? = null,
+        val notInList: List<String>? = null
+    ) : Element
+
+    @Serializable
+    data class DateElement(
+        val eq: String? = null,
+        val neq: String? = null,
+        val less: String? = null,
+        val lessEq: String? = null,
+        val greater: String? = null,
+        val greaterEq: String? = null,
         val inList: List<String>? = null,
         val notInList: List<String>? = null
     ) : Element
@@ -69,14 +69,18 @@ interface ListOptionFilter : DataTransferObject {
          */
         val includeAny: BitMask<T>? = null,
         /**
-         * field & [excludeAll] == field인 행만 검색
+         * field & [excludeAll] == 0 행만 검색
          */
-        val excludeAll: BitMask<T>? = null,
-        /**
-         * field & [excludeAny] == 0 행만 검색
-         */
-        val excludeAny: BitMask<T>? = null
+        val excludeAll: BitMask<T>? = null
     ) : Element where T : BitMaskFlag, T : Enum<T>
+
+    @Serializable
+    data class EnumElement<T>(
+        val eq: T? = null,
+        val neq: T? = null,
+        val inList: List<T>? = null,
+        val notInList: List<T>? = null
+    ) : Element where T : Enum<T>
 }
 
 /**
