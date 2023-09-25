@@ -12,43 +12,71 @@ interface ListOption<Filter : ListOptionFilter, Order : ListOptionOrder> : DataT
 interface ListOptionFilter : DataTransferObject {
     sealed interface Element
 
+    sealed interface PrimitiveElement<T> : Element where T : Comparable<T> {
+        val eq: T?
+        val neq: T?
+        val less: T?
+        val lessEq: T?
+        val greater: T?
+        val greaterEq: T?
+        val inList: List<T>?
+        val notInList: List<T>?
+    }
+
     @Serializable
     data class NumericElement<T>(
-        val eq: T? = null,
-        val neq: T? = null,
-        val less: T? = null,
-        val lessEq: T? = null,
-        val greater: T? = null,
-        val greaterEq: T? = null,
-        val inList: List<T>? = null,
-        val notInList: List<T>? = null
-    ) : Element where T : Number, T : Comparable<T>
+        override val eq: T? = null,
+        override val neq: T? = null,
+        override val less: T? = null,
+        override val lessEq: T? = null,
+        override val greater: T? = null,
+        override val greaterEq: T? = null,
+        override val inList: List<T>? = null,
+        override val notInList: List<T>? = null
+    ) : PrimitiveElement<T> where T : Number, T : Comparable<T>
+
+    @Serializable
+    data class CharElement(
+        override val eq: Char? = null,
+        override val neq: Char? = null,
+        override val less: Char? = null,
+        override val lessEq: Char? = null,
+        override val greater: Char? = null,
+        override val greaterEq: Char? = null,
+        override val inList: List<Char>? = null,
+        override val notInList: List<Char>? = null
+    ) : PrimitiveElement<Char>
+
+    @Serializable
+    data class BooleanElement(
+        val eq: Boolean? = null
+    ) : Element
 
     @Serializable
     data class StringElement(
-        val eq: String? = null,
-        val neq: String? = null,
-        val less: String? = null,
-        val lessEq: String? = null,
-        val greater: String? = null,
-        val greaterEq: String? = null,
+        override val eq: String? = null,
+        override val neq: String? = null,
+        override val less: String? = null,
+        override val lessEq: String? = null,
+        override val greater: String? = null,
+        override val greaterEq: String? = null,
         val like: String? = null,
         val notLike: String? = null,
-        val inList: List<String>? = null,
-        val notInList: List<String>? = null
-    ) : Element
+        override val inList: List<String>? = null,
+        override val notInList: List<String>? = null
+    ) : PrimitiveElement<String>
 
     @Serializable
     data class DateElement(
-        val eq: String? = null,
-        val neq: String? = null,
-        val less: String? = null,
-        val lessEq: String? = null,
-        val greater: String? = null,
-        val greaterEq: String? = null,
-        val inList: List<String>? = null,
-        val notInList: List<String>? = null
-    ) : Element
+        override val eq: String? = null,
+        override val neq: String? = null,
+        override val less: String? = null,
+        override val lessEq: String? = null,
+        override val greater: String? = null,
+        override val greaterEq: String? = null,
+        override val inList: List<String>? = null,
+        override val notInList: List<String>? = null
+    ) : PrimitiveElement<String>
 
     @Serializable
     data class BitMaskElement<T>(
