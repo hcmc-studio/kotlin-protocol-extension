@@ -21,6 +21,8 @@ interface ListOptionFilter : DataTransferObject {
         val greaterEq: T?
         val inList: List<T>?
         val notInList: List<T>?
+        val isNull: Boolean?
+        val isNotNull: Boolean?
     }
 
     @Serializable
@@ -32,7 +34,9 @@ interface ListOptionFilter : DataTransferObject {
         override val greater: T? = null,
         override val greaterEq: T? = null,
         override val inList: List<T>? = null,
-        override val notInList: List<T>? = null
+        override val notInList: List<T>? = null,
+        override val isNull: Boolean? = null,
+        override val isNotNull: Boolean? = null
     ) : PrimitiveElement<T> where T : Number, T : Comparable<T>
 
     @Serializable
@@ -44,12 +48,16 @@ interface ListOptionFilter : DataTransferObject {
         override val greater: Char? = null,
         override val greaterEq: Char? = null,
         override val inList: List<Char>? = null,
-        override val notInList: List<Char>? = null
+        override val notInList: List<Char>? = null,
+        override val isNull: Boolean? = null,
+        override val isNotNull: Boolean? = null
     ) : PrimitiveElement<Char>
 
     @Serializable
     data class BooleanElement(
-        val eq: Boolean? = null
+        val eq: Boolean? = null,
+        val isNull: Boolean? = null,
+        val isNotNull: Boolean? = null
     ) : Element
 
     @Serializable
@@ -63,7 +71,9 @@ interface ListOptionFilter : DataTransferObject {
         val like: String? = null,
         val notLike: String? = null,
         override val inList: List<String>? = null,
-        override val notInList: List<String>? = null
+        override val notInList: List<String>? = null,
+        override val isNull: Boolean? = null,
+        override val isNotNull: Boolean? = null
     ) : PrimitiveElement<String>
 
     @Serializable
@@ -75,7 +85,9 @@ interface ListOptionFilter : DataTransferObject {
         override val greater: String? = null,
         override val greaterEq: String? = null,
         override val inList: List<String>? = null,
-        override val notInList: List<String>? = null
+        override val notInList: List<String>? = null,
+        override val isNull: Boolean? = null,
+        override val isNotNull: Boolean? = null
     ) : PrimitiveElement<String>
 
     @Serializable
@@ -99,7 +111,9 @@ interface ListOptionFilter : DataTransferObject {
         /**
          * field & [excludeAll] == 0 행만 검색
          */
-        val excludeAll: BitMask<T>? = null
+        val excludeAll: BitMask<T>? = null,
+        val isNull: Boolean? = null,
+        val isNotNull: Boolean? = null
     ) : Element where T : BitMaskFlag, T : Enum<T>
 
     @Serializable
@@ -107,7 +121,9 @@ interface ListOptionFilter : DataTransferObject {
         val eq: T? = null,
         val neq: T? = null,
         val inList: List<T>? = null,
-        val notInList: List<T>? = null
+        val notInList: List<T>? = null,
+        val isNull: Boolean? = null,
+        val isNotNull: Boolean? = null
     ) : Element where T : Enum<T>
 }
 
