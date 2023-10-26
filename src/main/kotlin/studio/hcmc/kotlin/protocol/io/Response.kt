@@ -65,16 +65,12 @@ sealed interface Response<T> : DataTransferObject {
     data class Error(
         override val type: Type,
         override val metadata: Metadata,
-        override val result: String,
-        val className: String,
-        val status: Int
-    ) : Response<String> {
+        override val result: SerializableThrowable
+    ) : Response<SerializableThrowable> {
         constructor(acceptedAt: Instant, throwable: Throwable): this(
             type = Type.Error,
             metadata = Metadata(acceptedAt),
-            result = throwable.stackTraceToString(),
-            className = throwable::class.qualifiedName ?: "<unknown>",
-            status = if (throwable is ErrorDataTransferObject) throwable.httpStatusCode else 500
+            result = SerializableThrowable(throwable)
         )
     }
 }
