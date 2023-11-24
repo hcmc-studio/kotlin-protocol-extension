@@ -1,5 +1,6 @@
 package studio.hcmc.kotlin.protocol.io
 
+@Deprecated("Use VerboseValueObjectConvertor instead.")
 interface QualifiedValueObjectConvertor<QVO : QualifiedValueObject> {
     fun toQualifiedValueObject(): QVO
 }
