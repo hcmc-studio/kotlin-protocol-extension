@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 import studio.hcmc.kotlin.protocol.BitMask
 import studio.hcmc.kotlin.protocol.BitMaskFlag
 
-interface ListOption<Filter : ListOptionFilter, Order : ListOptionOrder> : DataTransferObject {
+interface ListOption<Filter : ListOptionFilter, Order : ListOptionOrder> : RequestDataTransferObject {
     val filter: Filter
     val order: Order
 }
 
-interface ListOptionFilter : DataTransferObject {
+interface ListOptionFilter : RequestDataTransferObject {
     sealed interface Element
 
     sealed interface PrimitiveElement<T> : Element where T : Comparable<T> {
