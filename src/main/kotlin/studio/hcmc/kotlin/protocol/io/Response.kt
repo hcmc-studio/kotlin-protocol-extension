@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
-sealed interface Response<T> : DataTransferObject {
+sealed interface Response<T> : ResponseDataTransferObject {
     val type: Type
     val metadata: Metadata
     val result: T
